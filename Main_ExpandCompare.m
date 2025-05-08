@@ -1,5 +1,5 @@
 close all;clear;
-%∂‡∏ˆ’πø™µ„ºÏ≤‚–‘ƒ‹∂‘±»«˙œﬂ
+%
 tic
 pf=1e-4;
 % load('ExpandValue1762.mat')
@@ -10,32 +10,32 @@ load('ExpandValue1145.mat')
 %  load('ExpandValue81.mat')
 % K=[32 29 26 23];%reference number
 % L=[16 16 16 16];%snapshot
-% lamda_snrtimes=[1 7 6 2]; %æ÷≤ø–≈‘Î±»µƒ±»¿˝
+% lamda_snrtimes=[1 7 6 2]; %
 % %
 % K=[32 29 26 23];%reference number
 % L=[16 16 16 16];%snapshot
-% lamda_snrtimes=[10 6 2 1]; %æ÷≤ø–≈‘Î±»µƒ±»¿˝
+% lamda_snrtimes=[10 6 2 1]; %
 % %
 K=[32 29 26 23];%reference number
 L=[16 16 16 16];%snapshot
-lamda_snrtimes=[1 1 14 15]; %æ÷≤ø–≈‘Î±»µƒ±»¿˝
+lamda_snrtimes=[1 1 14 15]; %
 %
 % K=[32 32 32 32];%reference number
 % L=[16 16 16 16];%snapshot
-% lamda_snrtimes=[1 3 5 7]; %æ÷≤ø–≈‘Î±»µƒ±»¿˝
+% lamda_snrtimes=[1 3 5 7]; %
 % %
 % K=[32 32 32 32];%reference number
 % L=[8 10 16 20];%snapshot
-% lamda_snrtimes=[8 4 2 1]; %æ÷≤ø–≈‘Î±»µƒ±»¿˝
+% lamda_snrtimes=[8 4 2 1]; %
 % 
 % K=[32 23];%reference number
 % L=[16 16];%snapshot
-% lamda_snrtimes=[8 1]; %æ÷≤ø–≈‘Î±»µƒ±»¿˝
+% lamda_snrtimes=[8 1]; %
 
 
 site_num=length(K);
 M=K+1-L;
-rou=(K+2-L)./(K+1);%À ß“Ú◊”æ˘÷µ
+rou=(K+2-L)./(K+1);%
 w_modify=(K+1)./(K+1-L);
 trial_num0=1e6;
 trial_num1=1e6;
@@ -43,7 +43,6 @@ SNR=0:1:20;
 lamda_snr=10.^(SNR/10); 
 snr_num=length(lamda_snr);
 
- %æ÷≤ø–≈‘Î±»µƒ±»¿˝
 snr_matrix=[];
 for i=1:length(lamda_snrtimes)
     lamda_snr_local=lamda_snrtimes(i)*lamda_snr/sum(lamda_snrtimes);
@@ -68,8 +67,8 @@ snr_matrixE=snr_matrix(10,:);%  9-13dB
 %         r_expand2(k,i)=rs(trial_num1-trial_num1*pro_standard);
 %     end
 % end
-% eta_expand=1-exp(-r_expand1./(K+1)); %æ˘÷µ--’πø™µ„
-% %%’πø™µ„µƒ—°»°
+% eta_expand=1-exp(-r_expand1./(K+1)); %
+% %%
 % eta01=eta_expand;
 % eta02=1-exp(-r_expand2./(K+1));
 expand_num=size(eta02,1);
@@ -86,7 +85,7 @@ cof_r1=zeros(1,site_num);cof_r2=zeros(expand_num,site_num);
 cof_r3=zeros(1,site_num);
 %%
 for h=1:expand_num
-    t0_r1=0;t0_r2=0;t0_r3=0;%Ã©¿’’πø™
+    t0_r1=0;t0_r2=0;t0_r3=0;%
     t0_standardZ=0;t0_modifyZ=0;
     temp1=zeros(1,site_num);
     temp2=zeros(1,site_num);
@@ -94,21 +93,21 @@ for h=1:expand_num
     cof_eta=zeros(1,site_num);
     cof_z=zeros(1,site_num);
     for i=1:site_num
-        %«Û∏˜ºÏ≤‚∆˜»®÷µ
+        %Ê±ÇÂêÑÊ£ÄÊµãÂô®ÊùÉÂÄº
         temp1(i)=hypergeom(K(i)+3-L(i),2,snr_matrixE(i).*rou(i).*eta01(i))....
-            /hypergeom(K(i)+2-L(i),1,snr_matrixE(i).*rou(i).*eta01(i)); %æ˘÷µ
+            /hypergeom(K(i)+2-L(i),1,snr_matrixE(i).*rou(i).*eta01(i)); %
         temp2(i)=hypergeom(K(i)+3-L(i),2,snr_matrixE(i).*rou(i).*eta02(h,i))....
-            /hypergeom(K(i)+2-L(i),1,snr_matrixE(i).*rou(i).*eta02(h,i)); %∑÷Œªµ„
+            /hypergeom(K(i)+2-L(i),1,snr_matrixE(i).*rou(i).*eta02(h,i)); %
         temp3(i)=hypergeom(K(i)+3-L(i),2,snr_matrixE(i).*rou(i).*eta04(i))....
-            /hypergeom(K(i)+2-L(i),1,snr_matrixE(i).*rou(i).*eta04(i)); %÷–Œª ˝
+            /hypergeom(K(i)+2-L(i),1,snr_matrixE(i).*rou(i).*eta04(i)); %
         %         cof_eta(i)=(K(i)+2-L(i)).*snr_matrix(k,i).*rou(i).*temp1(i);%eta
         %         cof_z(i)=cof_eta(i).*(1-eta01(i)).^2;
         cof_r1(i)=rou(i).^2.*snr_matrixE(i).*(1-eta01(i)).*temp1(i);%r1
         cof_r2(h,i)=rou(i).^2.*snr_matrixE(i).*(1-eta02(h,i)).*temp2(i);%r2
         cof_r3(i)=rou(i).^2.*snr_matrixE(i).*(1-eta03(i)).*temp3(i);%r1
         %cof_x1(i)=cof_z(i)/(K(i)+1)*(1-eta01(i))^(K(i));
-%         %H0œ¬Õ≥º∆¡øMC
-%         randsig=(randn(M(i)+1,trial_num0)+1i*randn(M(i)+1,trial_num0))/sqrt(2); %CN(0,I),‘Î…˘∑Ω≤ÓŒ™1
+%         %H0
+%         randsig=(randn(M(i)+1,trial_num0)+1i*randn(M(i)+1,trial_num0))/sqrt(2); %CN(0,I),1
 %         r=(K(i)+1)*log(1+abs(randsig(1,:)).^2./sum(abs(randsig(2:end,:)).^2,1));%r
 %         
 %         t0_r1=t0_r1+cof_r1(i)*r;%r-expand
@@ -126,16 +125,16 @@ for h=1:expand_num
 %     gate_r2(h)=t0_r2(trial_num0-trial_num0*pf);
 %     gate_standardZ=t0_standardZ(trial_num0-trial_num0*pf);
 %     gate_modifyZ=t0_modifyZ(trial_num0-trial_num0*pf);
-            %% ”√π´ Ω«Û√≈œﬁ
+            %% 
             gatee_r1=wchigate(2*ones(site_num,1),(w_modify.*cof_r1)/2,pf,28);
             gatee_r2(h)=wchigate(2*ones(site_num,1),(w_modify.*cof_r2(h,:))/2,pf,28);
             gatee_r3=wchigate(2*ones(site_num,1),(w_modify.*cof_r3)/2,pf,28);
             gatee_standardZ=wchigate(2*ones(site_num,1),(w_modify)/2,pf,28);
             gatee_modifyZ=chi2inv(1-pf,2*site_num);
 end
-% for k=1:snr_num %%’‚¡Ω––÷ªƒ‹ø¥ø¥√≈œﬁº∆À„ «∑Ò’˝»∑ ª≠ºÏ≤‚«˙œﬂ”–Œ Ã‚£®œµ ˝c£©
+% for k=1:snr_num %%Ëøô‰∏§Ë°åÂè™ËÉΩÁúãÁúãÈó®ÈôêËÆ°ÁÆóÊòØÂê¶Ê≠£Á°Æ ÁîªÊ£ÄÊµãÊõ≤Á∫øÊúâÈóÆÈ¢òÔºàÁ≥ªÊï∞cÔºâ
 %k/snr_num*100
-%º∆À„ºÏ≤‚∏≈¬ 
+%ËÆ°ÁÆóÊ£ÄÊµãÊ¶ÇÁéá
 for h=1:expand_num
     h/expand_num
     for k=1:snr_num
@@ -178,11 +177,8 @@ plot(SNR,pd_expand_r1,'->','linewidth',1.5,'markersize',8);hold on;
 plot(SNR,pd_standardZ,'-p','linewidth',1.5,'markersize',8);hold on;
 plot(SNR,pd_modifyZ,'-x','linewidth',1.5,'markersize',8);
 grid on;
-% xlabel('TSNR (dB)');ylabel('Probability of detection (%)')
-% legend('GSWT','SGLRT','MGLRT','location','NorthWest');
-xlabel('–≈‘Î±», dB');ylabel('ºÏ≤‚∏≈¬ , %')
-legend('GSWT','SGLRT','MGLRT','location','NorthWest');
-set(gca,'Fontname','ÀŒÃÂ','FontSize',10.5);
+xlabel('TSNR (dB)');ylabel('Probability of detection (%)')
+ legend('GSWT','SGLRT','MGLRT','location','NorthWest');
 
 set(gcf,'color',[1,1,1]);
 % set(gca,'Fontname','Times New Roman','FontSize',13);
