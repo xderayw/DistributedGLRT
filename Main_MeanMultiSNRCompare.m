@@ -1,6 +1,5 @@
 close all;clear;
-%¶à¸öÕ¹¿ªµã¼ì²âĞÔÄÜ¶Ô±ÈÇúÏß
-%ÔÚ²»Í¬µÄ×ÜĞÅÔë±ÈÏÂ
+
 tic
 pf=1e-4;
 K=[32 29 26 23];%reference number
@@ -8,7 +7,7 @@ K=[32 29 26 23];%reference number
 L=[16 16 16 16];%snapshot
 site_num=length(K);
 M=K+1-L;
-rou=(K+2-L)./(K+1);%ËğÊ§Òò×Ó¾ùÖµ
+rou=(K+2-L)./(K+1);
 w_modify=(K+1)./(K+1-L);
 trial_num0=1e6;
 trial_num1=2e6;
@@ -19,11 +18,11 @@ snr_num=length(lamda_snr);
 lamda_snrtimes=[1 2 1 5;
                10 6 2 1;
                1 7 1 1;
-               1 1 14 15]; %¾Ö²¿ĞÅÔë±ÈµÄ±ÈÀı
+               1 1 14 15]; 
 
-% lamda_snrtimes=[1 2 1 5]; %¾Ö²¿ĞÅÔë±ÈµÄ±ÈÀı
-% lamda_snrtimes(m,:)=[1 7 1 1]; %¾Ö²¿ĞÅÔë±ÈµÄ±ÈÀı
-% lamda_snrtimes(m,:)=[1 1 14 15]; %¾Ö²¿ĞÅÔë±ÈµÄ±ÈÀı
+% lamda_snrtimes=[1 2 1 5]; 
+% lamda_snrtimes(m,:)=[1 7 1 1]; 
+% lamda_snrtimes(m,:)=[1 1 14 15]; 
 fig_num=size(lamda_snrtimes,1);
 for m=1:fig_num
 snr_matrix=[];
@@ -45,11 +44,8 @@ end
 
 
 mean_expand_all=eta01;
-choice_index=[6 8 10 12 14]; %¶ÔÓ¦ 5  7 9 11 13 dB
-%choice_index=10;
-%mean_expand_choice=eta01(:,[1 5 9 13 17 21]);
+choice_index=[6 8 10 12 14]; % 5  7 9 11 13 dB
 mean_expand_choice=eta01(:,choice_index);
-%mean_expand_choice=eta01;
 mean_expand_choice_num=size(mean_expand_choice,2);
 
 pd_expand_r1=zeros(mean_expand_choice_num,snr_num);
@@ -64,16 +60,16 @@ gatee_r1=zeros(1,mean_expand_choice_num);
 gate_r1=zeros(1,mean_expand_choice_num);
 %%
 for h=1:mean_expand_choice_num
-    t0_r1=0;t0_r2=0;t0_r3=0;%Ì©ÀÕÕ¹¿ª
+    t0_r1=0;t0_r2=0;t0_r3=0;%
     t0_standardZ=0;t0_modifyZ=0;
     temp1=zeros(1,site_num);
     for i=1:site_num
-        %Çó¸÷¼ì²âÆ÷È¨Öµ
+        %æ±‚å„æ£€æµ‹å™¨æƒå€¼
         temp1(i)=hypergeom(K(i)+3-L(i),2,snr_matrix(choice_index(h),i).*rou(i).*mean_expand_choice(i,h))....
-            /hypergeom(K(i)+2-L(i),1,snr_matrix(choice_index(h),i).*rou(i).*mean_expand_choice(i,h)); %¾ùÖµ
+            /hypergeom(K(i)+2-L(i),1,snr_matrix(choice_index(h),i).*rou(i).*mean_expand_choice(i,h)); %å‡å€¼
         cof_r1(i,h)=rou(i).^2.*snr_matrix(choice_index(h),i).*(1-mean_expand_choice(i,h)).*temp1(i);%r1
-        %H0ÏÂÍ³¼ÆÁ¿MC
-        randsig=(randn(M(i)+1,trial_num0)+1i*randn(M(i)+1,trial_num0))/sqrt(2); %CN(0,I),ÔëÉù·½²îÎª1
+        %H0
+        randsig=(randn(M(i)+1,trial_num0)+1i*randn(M(i)+1,trial_num0))/sqrt(2); %CN(0,I)
         r=(K(i)+1)*log(1+abs(randsig(1,:)).^2./sum(abs(randsig(2:end,:)).^2,1));%r        
         t0_r1=t0_r1+cof_r1(i,h)*r;%r-expand         
         t0_standardZ=t0_standardZ+r;%standard
@@ -85,14 +81,12 @@ for h=1:mean_expand_choice_num
     gate_r1(h)=t0_r1(trial_num0-trial_num0*pf);
     gate_standardZ=t0_standardZ(trial_num0-trial_num0*pf);
     gate_modifyZ=t0_modifyZ(trial_num0-trial_num0*pf);
-            % ÓÃ¹«Ê½ÇóÃÅÏŞ
+            % ç”¨å…¬å¼æ±‚é—¨é™
             gatee_r1(h)=wchigate(2*ones(site_num,1),(w_modify.*(cof_r1(:,h))')/2,pf,28);
             gatee_standardZ=wchigate(2*ones(site_num,1),(w_modify)/2,pf,28);
             gatee_modifyZ=chi2inv(1-pf,2*site_num);
 end
-% for k=1:snr_num %%ÕâÁ½ĞĞÖ»ÄÜ¿´¿´ÃÅÏŞ¼ÆËãÊÇ·ñÕıÈ· »­¼ì²âÇúÏßÓĞÎÊÌâ£¨ÏµÊıc£©
-%k/snr_num*100
-%¼ÆËã¼ì²â¸ÅÂÊ
+
 for h=1:mean_expand_choice_num
     h/mean_expand_choice_num
     for k=1:snr_num
@@ -106,10 +100,6 @@ for h=1:mean_expand_choice_num
             t1_standardZ=t1_standardZ+r;
             t1_modifyZ=t1_modifyZ+2/w_modify(i)*r;
         end
-%         pd_expand_r1(k)=sum(t1_r1>gate_r1);
-%         pd_expand_r2(h,k)=sum(t1_r2>gate_r2(h));
-%         pd_standardZ(k)=sum(t1_standardZ>gate_standardZ);
-%         pd_modifyZ(k)=sum(t1_modifyZ>gate_modifyZ);
 
         pd_expand_r1(h,k)=sum(t1_r1>gatee_r1(h));
         pd_standardZ(k)=sum(t1_standardZ>gatee_standardZ);
