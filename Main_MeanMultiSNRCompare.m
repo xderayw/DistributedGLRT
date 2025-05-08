@@ -64,7 +64,7 @@ for h=1:mean_expand_choice_num
     t0_standardZ=0;t0_modifyZ=0;
     temp1=zeros(1,site_num);
     for i=1:site_num
-        %求各检测器权值
+        %
         temp1(i)=hypergeom(K(i)+3-L(i),2,snr_matrix(choice_index(h),i).*rou(i).*mean_expand_choice(i,h))....
             /hypergeom(K(i)+2-L(i),1,snr_matrix(choice_index(h),i).*rou(i).*mean_expand_choice(i,h)); %均值
         cof_r1(i,h)=rou(i).^2.*snr_matrix(choice_index(h),i).*(1-mean_expand_choice(i,h)).*temp1(i);%r1
@@ -81,7 +81,7 @@ for h=1:mean_expand_choice_num
     gate_r1(h)=t0_r1(trial_num0-trial_num0*pf);
     gate_standardZ=t0_standardZ(trial_num0-trial_num0*pf);
     gate_modifyZ=t0_modifyZ(trial_num0-trial_num0*pf);
-            % 用公式求门限
+            % 
             gatee_r1(h)=wchigate(2*ones(site_num,1),(w_modify.*(cof_r1(:,h))')/2,pf,28);
             gatee_standardZ=wchigate(2*ones(site_num,1),(w_modify)/2,pf,28);
             gatee_modifyZ=chi2inv(1-pf,2*site_num);
